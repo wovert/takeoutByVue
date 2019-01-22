@@ -11,7 +11,7 @@ import Header from '@/components/header/Header'
 import Tab from '@/components/common/Tab'
 
 const STATUS_OK = 200
-const HOST = 'http://localhost:3004/api/'
+const HOST = 'http://192.168.1.88:3004/api/'
 
 export default {
   name: 'App',
