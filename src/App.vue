@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Header from '@/components/header/Header'
-import Tab from '@/components/common/Tab'
+import Header from '@/components/header/header'
+import Tab from '@/components/common/tab'
 
 const STATUS_OK = 200
 const HOST = 'http://192.168.1.88:3004/api/'
@@ -26,7 +26,6 @@ export default {
   },
   created () {
     this.$http.get(`${HOST}seller`).then(res => {
-      console.log(res)
       if (res.status === STATUS_OK) {
         this.seller = res.data
       }

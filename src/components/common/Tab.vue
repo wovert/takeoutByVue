@@ -38,8 +38,8 @@ export default {
   .tab
     display: flex
     width: 100%
-    height: 2.857143rem
-    line-height: 2.857143rem
+    height: 40px
+    line-height: 40px
     // border-bottom: 1px solid rgba(7, 17, 27, 0.1)
     border-1px(rgba(7, 17, 27, 0.1))
     .tab-item
@@ -47,7 +47,7 @@ export default {
       text-align: center
       & > a
         display: block
-        font-size: 1rem
+        font-size: 14px
         color: rgb(77, 85, 93)
         &.active
           color: rgb(240, 20, 20)

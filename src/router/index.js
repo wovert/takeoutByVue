@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import VueResource from 'vue-resource'
 
-const Goods = () => import('@/components/goods/Goods')
-const Seller = () => import('@/components/seller/Seller')
-const Ratings = () => import('@/components/comments/Ratings')
+const Goods = () => import('@/components/goods/goods')
+const Seller = () => import('@/components/seller/seller')
+const Ratings = () => import('@/components/comments/ratings')
 
 Vue.use(Router)
 Vue.use(VueResource)
