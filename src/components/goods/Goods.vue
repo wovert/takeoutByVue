@@ -1,8 +1,8 @@
 <template>
   <main class="goods">
-    <section class="menu-wrapper">
+    <section class="menu-wrapper" ref="menu" v-el:menu-wrapper>
       <ul>
-        <li v-for="(item, i) in goods" :key="i" class="menu-item">
+        <li v-for="(item, index) in goods" :key="index" class="menu-item" :class="{'current': currentIndex === index}" @click="selectMenu( index, $event)">
           <span class="text border-1px">
             <span v-show="item.type > 0" class="icon" :class="classMap[item.type]"></span>
             {{ item.name }}
@@ -10,9 +10,9 @@
         </li>
       </ul>
     </section>
-    <div class="foods-wrapper">
+    <div class="foods-wrapper" ref="food" v-el:food-wrapper>
       <ul>
-        <li v-for="(item, i) in goods" :key="i" class="food-list">
+        <li v-for="(item, i) in goods" :key="i" class="food-list food-list-hook">
           <h1 class="title">{{ item.name }}</h1>
           <ul>
             <li v-for="(food, k) in item.foods" :key="k" class="food-item border-1px">
@@ -21,14 +21,12 @@
               </div>
               <div class="content">
                 <h2 class="name">{{ food.name }}</h2>
-                <p class="desc">{{ food.description }}</p>            
+                <p class="desc">{{ food.description }}</p>
                 <div class="extra">
-                  <span class="count">月售{{ food.sellCount }} 份</span>
-                  <span>好评率{{ food.rating }} %</span>
+                  <span class="count">月售{{ food.sellCount }}份</span><span>好评率{{ food.rating }}%</span>
                 </div>
                 <div class="price">
-                  <span class="now">￥{{ food.price }}</span>
-                  <span class="old" v-show="food.oldPrice">${{ food.oldPrice }}</span>
+                  <span class="now">￥{{ food.price }}</span><span class="old" v-show="food.oldPrice">￥{{ food.oldPrice }}</span>
                 </div>
               </div>
             </li>
@@ -40,6 +38,8 @@
 </template>
 
 <script>
+
+import BScroll from 'better-scroll'
 const STATUS_OK = 200
 const HOST = 'http://192.168.1.88:3004/api/'
 export default {
@@ -52,16 +52,71 @@ export default {
   created () {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
     this.$http.get(`${HOST}goods`).then(res => {
-      console.log(res)
+      // console.log(res)
       if (res.status === STATUS_OK) {
         this.goods = res.data
+        this.$nextTick(() => {
+          this.initScroll()
+
+          // 计算高度
+          this.calculateHeight()
+        })
       }
     })
+  },
+  computed: {
+    currentIndex () {
+      let cnt = this.listHeight.length
+      for (let i = 0; i < cnt; i++) {
+        let height1 = this.listHeight[i]
+        let height2 = this.listHeight[i + 1]
+        if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+          return i
+        }
+      }
+      return 0
+    }
   },
   data () {
     return {
       goods: [],
-      classMap: []
+      classMap: [],
+      listHeight: [],
+      scrollY: 0
+    }
+  },
+  methods: {
+    initScroll () {
+      this.menuScroll = new BScroll(this.$refs.menu, {
+        click: true
+      })
+      this.foodScroll = new BScroll(this.$refs.food, {
+        probeType: 3
+      })
+      this.foodScroll.on('scroll', (pos) => {
+        this.scrollY = Math.abs(Math.round(pos.y))
+        // console.log(this.scrollY)
+      })
+    },
+    calculateHeight () {
+      console.log('计算food高度')
+      let foodList = this.$refs.food.getElementsByClassName('food-list-hook')
+      let height = 0
+      this.listHeight.push(height)
+      let cnt = foodList.length
+      for (let i = 0; i < cnt; i++) {
+        let item = foodList[i]
+        height += item.clientHeight
+        this.listHeight.push(height)
+      }
+    },
+    selectMenu (index, event) {
+      if (!event._constructed) {
+        return
+      }
+      let foodList = this.$refs.food.getElementsByClassName('food-list-hook')
+      let $dom = foodList[index]
+      this.foodScroll.scrollToElement($dom, 300)
     }
   }
 }
@@ -86,6 +141,17 @@ export default {
         width: 56px
         line-height: 14px
         padding: 0 12px
+        &.current
+          position: relative
+          z-index: 10
+          margin-top: -1px
+          background: #fff
+          font-weight: 700
+          .text
+            borer-none()
+        &:last-child
+          .text
+            border-none()
         .icon
           display: inline-block
           vertical-align: top
@@ -145,9 +211,10 @@ export default {
             font-size: 10px
             color: rgb(147, 153, 159)
           .desc
+            line-height: 12px
             margin-bottom: 8px
           .extra
-            &.count
+            .count
               margin-right: 12px
           .price
             font-weight: 700
@@ -160,7 +227,4 @@ export default {
               text-decoration: line-through
               font-size: 10px
               color: rgb(147, 153, 159)
-
-          
-
 </style>
