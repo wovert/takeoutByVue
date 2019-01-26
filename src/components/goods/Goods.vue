@@ -28,7 +28,7 @@
                   <span class="now">￥{{ food.price }}</span><span class="old" v-show="food.oldPrice">￥{{ food.oldPrice }}</span>
                 </div>
                 <div class="cart-control-wrapper">
-                  <cart-control :food="food"></cart-control>
+                  <cart-control @event="cartAdd" :food="food"></cart-control>
                 </div>
               </div>
             </li>
@@ -36,7 +36,7 @@
         </li>
       </ul>
     </div>
-    <cart :select-foods="selectFoods"  :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice">
+    <cart ref="cart" :select-foods="selectFoods"  :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice">
     </cart>
   </main>
 </template>
@@ -54,6 +54,12 @@ export default {
   components: {
     'cart': Cart,
     'cart-control': CartControl
+  },
+  events: {
+    // 接受子组件的事件
+    'cart.add' (target) {
+      this.drop(target)
+    }
   },
   props: {
     seller: {
@@ -140,6 +146,13 @@ export default {
       let foodList = this.$refs.food.getElementsByClassName('food-list-hook')
       let $dom = foodList[index]
       this.foodScroll.scrollToElement($dom, 300)
+    },
+    cartAdd (el) {
+      // 体验优化，异步执行下落动画
+      this.$nextTick(() => {
+        // 调用cart组件的drop()函数
+        this.$refs.cart.drop(el)
+      })
     }
   }
 }
