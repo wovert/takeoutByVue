@@ -1,6 +1,6 @@
 <template>
   <main class="goods">
-    <section class="menu-wrapper" ref="menu" v-el:menu-wrapper>
+    <div class="menu-wrapper" ref="menu" v-el:menu-wrapper>
       <ul>
         <li v-for="(item, index) in goods" :key="index" class="menu-item" :class="{'current': currentIndex === index}" @click="selectMenu( index, $event)">
           <span class="text border-1px">
@@ -8,7 +8,7 @@
           </span>
         </li>
       </ul>
-    </section>
+    </div>
     <div class="foods-wrapper" ref="food" v-el:food-wrapper>
       <ul>
         <li v-for="(item, i) in goods" :key="i" class="food-list food-list-hook">
@@ -33,16 +33,23 @@
         </li>
       </ul>
     </div>
+    <cart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice">
+    </cart>
   </main>
 </template>
 
 <script>
 
 import BScroll from 'better-scroll'
+import Cart from '@/components/cart/cart'
+
 const STATUS_OK = 200
 const HOST = 'http://192.168.1.88:3004/api/'
 export default {
   name: 'goods',
+  components: {
+    'cart': Cart
+  },
   props: {
     seller: {
       type: Object

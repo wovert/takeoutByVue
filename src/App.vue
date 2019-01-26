@@ -2,7 +2,7 @@
   <div id="app">
     <gq-header :seller="seller" />
     <gq-tab/>
-    <router-view></router-view>
+    <router-view :seller="seller"></router-view>
   </div>
 </template>
 
