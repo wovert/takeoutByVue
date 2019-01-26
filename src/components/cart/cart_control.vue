@@ -1,8 +1,8 @@
 <template>
   <div class="cart-control">
-    <transition><div class="cart-decrease" @click="decreaseCart" v-show="food.count > 0">
+    <transition><div class="cart-decrease" @click.stop.prevent="decreaseCart" v-show="food.count > 0">
         <i class="inner icon-remove_circle_outline"></i>
-      </div></transition><span class="cart-count" v-show="food.count > 0">{{ food.count }}</span><i class="cart-add icon-add_circle" @click="addCart"></i>
+      </div></transition><span class="cart-count" v-show="food.count > 0">{{ food.count }}</span><i class="cart-add icon-add_circle" @click.stop.prevent="addCart"></i>
   </div>
 </template>
 <script>

@@ -42,7 +42,6 @@
 </template>
 
 <script>
-
 import BScroll from 'better-scroll'
 import Cart from '@/components/cart/cart'
 import CartControl from '@/components/cart/cart_control'
