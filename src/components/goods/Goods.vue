@@ -27,13 +27,16 @@
                 <div class="price">
                   <span class="now">￥{{ food.price }}</span><span class="old" v-show="food.oldPrice">￥{{ food.oldPrice }}</span>
                 </div>
+                <div class="cart-control-wrapper">
+                  <cart-control :food="food"></cart-control>
+                </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-    <cart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice">
+    <cart :select-foods="selectFoods"  :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice">
     </cart>
   </main>
 </template>
@@ -42,13 +45,15 @@
 
 import BScroll from 'better-scroll'
 import Cart from '@/components/cart/cart'
+import CartControl from '@/components/cart/cart_control'
 
 const STATUS_OK = 200
 const HOST = 'http://192.168.1.88:3004/api/'
 export default {
   name: 'goods',
   components: {
-    'cart': Cart
+    'cart': Cart,
+    'cart-control': CartControl
   },
   props: {
     seller: {
@@ -81,6 +86,17 @@ export default {
         }
       }
       return 0
+    },
+    selectFoods () {
+      let foods = []
+      this.goods.forEach(good => {
+        good.foods.forEach(food => {
+          if (food.count) {
+            foods.push(food)
+          }
+        })
+      })
+      return foods
     }
   },
   data () {
@@ -97,6 +113,7 @@ export default {
         click: true
       })
       this.foodScroll = new BScroll(this.$refs.food, {
+        click: true,
         probeType: 3
       })
       this.foodScroll.on('scroll', (pos) => {
@@ -105,7 +122,7 @@ export default {
       })
     },
     calculateHeight () {
-      console.log('计算food高度')
+      // console.log('计算food高度')
       let foodList = this.$refs.food.getElementsByClassName('food-list-hook')
       let height = 0
       this.listHeight.push(height)
@@ -233,4 +250,8 @@ export default {
               text-decoration: line-through
               font-size: 10px
               color: rgb(147, 153, 159)
+         .cart-control-wrapper
+          position: absolute
+          right: 0
+          bottom: 12px
 </style>

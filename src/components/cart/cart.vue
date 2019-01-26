@@ -141,7 +141,7 @@ export default {
           vertical-align: top
           margin-top: 12px
           line-height: 24px
-          paddigg-right: 12px
+          padding-right: 12px
           box-sizing: border-box
           border-right: 1px solid rgba(255, 255, 255, 0.1)
           font-size: 16px
