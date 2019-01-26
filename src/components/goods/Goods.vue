@@ -45,7 +45,6 @@
 import BScroll from 'better-scroll'
 import Cart from '@/components/cart/cart'
 import CartControl from '@/components/cart/cart_control'
-
 const STATUS_OK = 200
 const HOST = 'http://192.168.1.88:3004/api/'
 export default {
@@ -211,7 +210,6 @@ export default {
           vertical-align: middle
           border-1px(rgba(7, 17, 27, 0.1))
           font-size: 12px
-
     .foods-wrapper
       flex: 1
       .title
