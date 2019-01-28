@@ -178,7 +178,8 @@ export default {
   computed: {
     listShow () {
       if (!this.totalCount) {
-        // this.fold = true
+        // eslint-disable-next-line
+        this.fold = true
         return false
       }
       let show = !this.fold

@@ -2,19 +2,19 @@
   <main class="goods">
     <div class="menu-wrapper" ref="menu" v-el:menu-wrapper>
       <ul>
-        <li v-for="(item, index) in goods" :key="index" class="menu-item" :class="{'current': currentIndex === index}" @click="selectMenu( index, $event)">
+        <li v-for="(item, index) in goods" :key="index" class="menu-item" :class="{'current': currentIndex === index}" @click="selectMenu(index, $event)">
           <span class="text border-1px">
             <span v-show="item.type > 0" class="icon" :class="classMap[item.type]"></span>{{ item.name }}
           </span>
         </li>
       </ul>
     </div>
-    <div class="foods-wrapper" ref="food" v-el:food-wrapper>
+    <div class="foods-wrapper" ref="foods" v-el:food-wrapper>
       <ul>
         <li v-for="(item, i) in goods" :key="i" class="food-list food-list-hook">
           <h1 class="title">{{ item.name }}</h1>
           <ul>
-            <li v-for="(food, k) in item.foods" :key="k" class="food-item border-1px">
+            <li @click="selectFood(food, $event)" v-for="(food, k) in item.foods" :key="k" class="food-item border-1px">
               <div class="icon">
                 <img width="57" height="57" :src="food.icon">
               </div>
@@ -38,6 +38,7 @@
     </div>
     <cart ref="cart" :select-foods="selectFoods"  :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice">
     </cart>
+    <food :food="selectedFood" ref="food"></food>
   </main>
 </template>
 
@@ -45,13 +46,15 @@
 import BScroll from 'better-scroll'
 import Cart from '@/components/cart/cart'
 import CartControl from '@/components/cart/cart_control'
+import Food from '@/components/food/food'
 const STATUS_OK = 200
 const HOST = 'http://192.168.1.88:3004/api/'
 export default {
   name: 'goods',
   components: {
     'cart': Cart,
-    'cart-control': CartControl
+    'cart-control': CartControl,
+    'food': Food
   },
   events: {
     // 接受子组件的事件
@@ -108,15 +111,23 @@ export default {
       goods: [],
       classMap: [],
       listHeight: [],
-      scrollY: 0
+      scrollY: 0,
+      selectedFood: {}
     }
   },
   methods: {
+    selectFood (food, event) {
+      if (!event._constructed) {
+        return
+      }
+      this.selectedFood = food
+      this.$refs.food.show()
+    },
     initScroll () {
       this.menuScroll = new BScroll(this.$refs.menu, {
         click: true
       })
-      this.foodScroll = new BScroll(this.$refs.food, {
+      this.foodScroll = new BScroll(this.$refs.foods, {
         click: true,
         probeType: 3
       })
@@ -127,7 +138,7 @@ export default {
     },
     calculateHeight () {
       // console.log('计算food高度')
-      let foodList = this.$refs.food.getElementsByClassName('food-list-hook')
+      let foodList = this.$refs.foods.getElementsByClassName('food-list-hook')
       let height = 0
       this.listHeight.push(height)
       let cnt = foodList.length
@@ -141,7 +152,7 @@ export default {
       if (!event._constructed) {
         return
       }
-      let foodList = this.$refs.food.getElementsByClassName('food-list-hook')
+      let foodList = this.$refs.foods.getElementsByClassName('food-list-hook')
       let $dom = foodList[index]
       this.foodScroll.scrollToElement($dom, 300)
     },
