@@ -20,8 +20,6 @@ export default {
         return
       }
       !this.food.count ? Vue.set(this.food, 'count', 1) : ++this.food.count
-
-      // 派发事件 提交'cart-add'事情给父组件，第二个是要传递的参数
       this.$emit('event', event.target)
     },
     decreaseCart () {

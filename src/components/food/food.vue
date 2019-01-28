@@ -4,7 +4,7 @@
    <div class="food-content">
       <div class="image-header">
         <img :src="food.image">
-        <div class="back" @click="hide"><i class="icon-arrow_lift"></i></div>
+        <div class="back" @click.stop.prevent="hide"><i class="icon-arrow_lift"></i></div>
       </div>
       <div class="content">
         <h1 class="title">{{ food.name }}</h1>
@@ -18,7 +18,10 @@
         <div class="cart-control-wrapper">
           <cart-control :food="food"></cart-control>
         </div>
-        <div class="buy" @click="addFirst" v-show="!food.count || food.count === 0">加入购物车</div>
+        <!--加入购物车按钮在每个商品详情页面只会出现一次，即第一次添加该商品的时候出现,商品数量超过1就消失-->
+        <transition name="fade">
+          <div class="buy" @click.stop.prevent="addFirst" v-show="!food.count || food.count === 0">加入购物车</div>
+        </transition>
       </div>
     </div>
   </div>
@@ -26,6 +29,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import BScroll from 'better-scroll'
 import CartControl from '@/components/cart/cart_control'
 // const HOST = 'http://192.168.1.88:3004/api/'
@@ -64,7 +68,12 @@ export default {
     hide () {
       this.showFlag = false
     },
-    addFirst () {
+    addFirst (event) {
+      if (!event._constructed) {
+        return
+      }
+      this.$emit('add', event.target)
+      Vue.set(this.food, 'count', 1)
     }
   }
 }
@@ -151,4 +160,8 @@ export default {
         font-size: 10px
         color: #fff
         background: rgb(0, 160, 220)
+        &.fade-enter-active,  &.fade-leave-active
+          transition: all 0.2s
+        &.fade-enter, &.fade-leave-active
+          opacity: 0
 </style>

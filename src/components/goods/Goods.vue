@@ -38,7 +38,7 @@
     </div>
     <cart ref="cart" :select-foods="selectFoods"  :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice">
     </cart>
-    <food :food="selectedFood" ref="food"></food>
+    <food @add="cartAdd" :food="selectedFood" ref="food"></food>
   </main>
 </template>
 
@@ -116,6 +116,18 @@ export default {
     }
   },
   methods: {
+    getFood (el) {
+      this.$nextTick(() => {
+        this.$refs.cart.drop(el)
+      })
+    },
+    cartAdd (el) {
+      // 体验优化，异步执行下落动画
+      this.$nextTick(() => {
+        // 调用cart组件的drop()函数
+        this.$refs.cart.drop(el)
+      })
+    },
     selectFood (food, event) {
       if (!event._constructed) {
         return
@@ -148,6 +160,7 @@ export default {
         this.listHeight.push(height)
       }
     },
+    // 左右连动映射
     selectMenu (index, event) {
       if (!event._constructed) {
         return
@@ -155,13 +168,6 @@ export default {
       let foodList = this.$refs.foods.getElementsByClassName('food-list-hook')
       let $dom = foodList[index]
       this.foodScroll.scrollToElement($dom, 300)
-    },
-    cartAdd (el) {
-      // 体验优化，异步执行下落动画
-      this.$nextTick(() => {
-        // 调用cart组件的drop()函数
-        this.$refs.cart.drop(el)
-      })
     }
   }
 }
