@@ -23,6 +23,16 @@
           <div class="buy" @click.stop.prevent="addFirst" v-show="!food.count || food.count === 0">加入购物车</div>
         </transition>
       </div>
+      <split v-show="food.info"></split>
+      <div class="info" v-show="food.info">
+        <h1 class="title">商品信息</h1>
+        <p class="text">{{ food.info }}</p>
+      </div>
+      <split></split>
+      <div class="rating">
+        <h1 class="title">商品评价</h1>
+        <rating-select :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></rating-select>
+      </div>
     </div>
   </div>
 </transition>
@@ -32,11 +42,20 @@
 import Vue from 'vue'
 import BScroll from 'better-scroll'
 import CartControl from '@/components/cart/cart_control'
+import Split from '@/components/split/split'
+import RatingSelect from '@/components/rating_select/rating_select'
 // const HOST = 'http://192.168.1.88:3004/api/'
+
+const POSITIVE = 0
+const NEGATIVE = 1
+const ALL = 2
+
 export default {
   name: 'food',
   components: {
-    'cart-control': CartControl
+    'cart-control': CartControl,
+    'split': Split,
+    'rating-select': RatingSelect
   },
   props: {
     food: {
@@ -49,12 +68,21 @@ export default {
   },
   data () {
     return {
-      showFlag: false
+      showFlag: false,
+      selectType: ALL,
+      onlyContent: true,
+      desc: {
+        all: '全部',
+        positive: '推荐',
+        negative: '吐槽'
+      }
     }
   },
   methods: {
     show () {
       this.showFlag = true
+      this.selectType = ALL
+      this.onlyContent = true
       this.$nextTick(() => {
         if (!this.scroll) {
           this.scroll = new BScroll(this.$refs.food, {
@@ -164,4 +192,23 @@ export default {
           transition: all 0.2s
         &.fade-enter, &.fade-leave-active
           opacity: 0
+    .info
+      padding: 18px
+      .title
+        line-height: 14px
+        margin-bottom: 6px
+        font-size: 14px
+        color: rgb(7, 17, 27)
+      .text
+        line-height: 24px
+        padding: 0 8px
+        font-size: 12px
+        color: rgb(77, 85, 93)
+    .rating
+      padding-top: 18px
+      .title
+        line-height: 14px
+        margin-left: 18px
+        font-size: 14px
+        color: rgb(7, 17, 27)
 </style>

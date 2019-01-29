@@ -141,6 +141,7 @@ export default {
     beforeEnter (el) {
       // el元素表示小球的div，ball.el表示加按钮
       let count = this.balls.length
+      console.log(count)
       while (count--) {
         let ball = this.balls[count]
         if (ball.show) {

@@ -4,7 +4,7 @@ import VueResource from 'vue-resource'
 
 const Goods = () => import('@/components/goods/goods')
 const Seller = () => import('@/components/seller/seller')
-const Ratings = () => import('@/components/comments/ratings')
+const Ratings = () => import('@/components/ratings/ratings')
 
 Vue.use(Router)
 Vue.use(VueResource)
