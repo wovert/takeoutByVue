@@ -1,18 +1,18 @@
 <template>
   <div class="rating-select">
     <div class="rating-type border-1px">
-      <span class="block positive" :class="{'active': selectType === 2}">{{ desc.all }}{{selectType}}<span class="count">47</span></span>
-      <span class="block positive" :class="{'active': selectType === 0}">{{ desc.positive }}{{selectType}}<span class="count">40</span></span>
-      <span class="block negative" :class="{'active': selectType === 1}">{{ desc.negative }}{{selectType}}<span class="count">20</span></span>
+      <span @click="select(2,$event)" class="block positive" :class="{'active': selectType === 2}">{{ desc.all }}{{selectType}}<span class="count">{{ ratings.length }}</span></span>
+      <span @click="select(0,$event)" class="block positive" :class="{'active': selectType === 0}">{{ desc.positive }}{{selectType}}<span class="count">{{ positives.length }}</span></span>
+      <span @click="select(1,$event)" class="block negative" :class="{'active': selectType === 1}">{{ desc.negative }}{{selectType}}<span class="count">{{ negatives.length }}</span></span>
     </div>
-    <div class="switch" :class="{'on': onlyContent}">
+    <div @click="toggleContent" class="switch" :class="{'on': onlyContent}">
       <i class="icon-check_circle"></i><span class="text">只看内容的评价</span>
     </div>
   </div>
 </template>
 <script>
-// const POSITIVE = 0
-// const NEGATIVE = 1
+const POSITIVE = 0
+const NEGATIVE = 1
 const ALL = 2
 export default {
   'name': 'rating-select',
@@ -44,6 +44,32 @@ export default {
   },
   data () {
     return {}
+  },
+  computed: {
+    positives () {
+      return this.ratings.filter((rating) => {
+        return rating.rateType === POSITIVE
+      })
+    },
+    negatives () {
+      return this.ratings.filter((rating) => {
+        return rating.rateType === NEGATIVE
+      })
+    }
+  },
+  methods: {
+    select (type, event) {
+      if (!event._constructed) {
+        return
+      }
+      this.$emit('selecttype', type)
+    },
+    toggleContent (event) {
+      if (!event._constructed) {
+        return
+      }
+      this.$emit('content')
+    }
   }
 }
 </script>
