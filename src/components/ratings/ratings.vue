@@ -1,6 +1,6 @@
 <template>
   <main class="ratings">
-    <div class="ratings-comtent">
+    <div class="ratings-content">
       <div class="overview">
         <div class="overview-left">
           <h1 class="score">{{ seller.score }}</h1>
@@ -58,7 +58,6 @@ export default {
           line-height 10px
           font-size 10px
           color: rgb(147, 153, 159)
-
       .overview-right
         flex 1
         padding-left 24px
