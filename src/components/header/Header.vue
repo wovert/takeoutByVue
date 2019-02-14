@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import star from '@/components/star/Star'
+import star from '@/components/star/star'
 export default {
   name: 'header',
   props: {
