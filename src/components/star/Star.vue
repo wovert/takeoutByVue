@@ -1,6 +1,6 @@
 <template>
-  <div class="start" :class="startType">
-    <span v-for="(itemClass, index) in itemClasses" :class="itemClass" class="start-item" :key="index"></span>
+  <div class="star" :class="starType">
+    <span v-for="(itemClass, index) in itemClasses" :class="itemClass" class="star-item" :key="index"></span>
   </div>
 </template>
 
@@ -21,8 +21,8 @@ export default {
     }
   },
   computed: {
-    startType () {
-      return `start-${this.size}`
+    starType () {
+      return `star-${this.size}`
     },
     itemClasses () {
       let result = []
@@ -46,13 +46,13 @@ export default {
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import '../../common/stylus/mixin'
-  .start
+  .star
     font-size: 0
-    .start-item
+    .star-item
       display: inline-block
       background-repeat: no-repeat
-    &.start-48
-      .start-item
+    &.star-48
+      .star-item
         width: 20px
         height: 20px
         margin-right: 22px
@@ -65,8 +65,8 @@ export default {
           bg-image('star48_half')
         &.off
           bg-image('star48_off')
-    &.start-36
-      .start-item
+    &.star-36
+      .star-item
         width: 15px
         height: 15px
         margin-right: 6px
@@ -79,8 +79,8 @@ export default {
           bg-image('star36_half')
         &.off
           bg-image('star36_off')
-    &.start-24
-      .start-item
+    &.star-24
+      .star-item
         width: 10px
         height: 10px
         margin-right: 3px
