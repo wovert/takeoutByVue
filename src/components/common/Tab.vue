@@ -1,9 +1,8 @@
 <template>
     <section class="tab border-1px">
       <div class="tab-item" v-for="(item, index) in menu" :key="index">
-        <router-link :to="{name: item.to}">
-          {{ item.title }}
-        </router-link>
+        <router-link v-if="item.to === 'seller'" :to="{name: item.to, query: {id: 123}}">{{ item.title }}</router-link>
+        <router-link v-else :to="{name: item.to}">{{ item.title }}</router-link>
       </div>
     </section>
 </template>

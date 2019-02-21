@@ -11,6 +11,7 @@ Vue.use(VueResource)
 
 export default new Router({
   linkActiveClass: 'active',
+  // mode: 'history',
   routes: [
     {
       path: '/',
@@ -19,17 +20,26 @@ export default new Router({
     {
       path: '/goods',
       name: 'goods',
-      component: Goods
+      component: Goods,
+      meta: {
+        keepAlive: true // 需要缓存
+      }
     },
     {
       path: '/seller',
       name: 'seller',
-      component: Seller
+      component: Seller,
+      meta: {
+        keepAlive: true // 需要缓存
+      }
     },
     {
       path: '/ratings',
       name: 'ratings',
-      component: Ratings
+      component: Ratings,
+      meta: {
+        keepAlive: true // 需要缓存
+      }
     }
   ]
 })

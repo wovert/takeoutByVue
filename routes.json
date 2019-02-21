@@ -1,6 +1,7 @@
 {
   "/api/": "/",
   "/api/seller": "/seller",
+  "/api/seller?id=123": "/seller",
   "/api/goods": "/goods",
   "/api/ratings": "/ratings"
 }
