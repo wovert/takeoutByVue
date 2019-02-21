@@ -11,6 +11,7 @@ const webpack = require('webpack')
 const config = require('../config')
 const webpackConfig = require('./webpack.prod.conf')
 
+// ora: 异步任务提示
 const spinner = ora('building for production...')
 spinner.start()
 
