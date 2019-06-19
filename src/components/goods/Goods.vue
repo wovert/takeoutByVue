@@ -48,7 +48,7 @@ import Cart from '@/components/cart/cart'
 import CartControl from '@/components/cart/cart_control'
 import Food from '@/components/food/food'
 const STATUS_OK = 200
-const HOST = 'http://192.168.1.88:3004/api/'
+const HOST = 'http://192.168.1.89:3004/api/'
 export default {
   name: 'goods',
   components: {

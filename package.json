@@ -12,9 +12,10 @@
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
     "build": "node build/build.js",
-    "mock": "json-server --port 3004 --host 192.168.1.88 --routes routes.json ./db.json"
+    "mock": "json-server --port 3004 --host 192.168.1.89 --routes routes.json ./db.json"
   },
   "dependencies": {
+    "qs": "^6.7.0",
     "vue": "^2.5.2",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1"

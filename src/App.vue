@@ -10,12 +10,13 @@
 </template>
 
 <script>
+import qs from 'qs'
 import Header from '@/components/header/header'
 import Tab from '@/components/common/tab'
 import {urlParse} from '@/common/js/utils'
 
 const STATUS_OK = 200
-const HOST = 'http://192.168.1.88:3004/api/'
+const HOST = 'http://192.168.1.89:3004/api/'
 
 export default {
   name: 'App',
@@ -23,8 +24,8 @@ export default {
     return {
       seller: {
         id: (() => {
-          let queryParam = urlParse()
-          return queryParam.id
+          const query = qs.parse(location.search.substring(1))
+          return query.id
         })()
       }
     }
@@ -35,6 +36,7 @@ export default {
   },
   created () {
     this.$http.get(`${HOST}seller?id=${this.seller.id}`).then(res => {
+    // this.$http.get(`${HOST}seller`).then(res => {
       if (res.status === STATUS_OK) {
         this.seller = Object.assign({}, this.seller, res.data)
       }
